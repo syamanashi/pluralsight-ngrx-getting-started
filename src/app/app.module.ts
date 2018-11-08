@@ -16,6 +16,10 @@ import { PageNotFoundComponent } from './home/page-not-found.component';
 
 /* Feature Modules */
 import { UserModule } from './user/user.module';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
   imports: [
@@ -24,6 +28,8 @@ import { UserModule } from './user/user.module';
     HttpClientInMemoryWebApiModule.forRoot(ProductData),
     UserModule,
     AppRoutingModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   declarations: [
     AppComponent,
