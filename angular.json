@@ -120,5 +120,8 @@
       }
     }
   },
-  "defaultProject": "apm"
+  "defaultProject": "apm",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
