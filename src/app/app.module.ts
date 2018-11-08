@@ -31,7 +31,11 @@ import { AppEffects } from './app.effects';
     UserModule,
     AppRoutingModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    !environment.production ? StoreDevtoolsModule.instrument({
+      name: 'APM Demo App Devtools',
+      maxAge: 25,
+      logOnly: environment.production // logOnly completely ignored in this case
+    }) : [],
     EffectsModule.forRoot([AppEffects]),
   ],
   declarations: [
