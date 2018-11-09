@@ -20,6 +20,20 @@ export const reducers: ActionReducerMap<State> = {
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
 */
 
+import { Product } from '../product';
+import * as fromRoot from '../../reducers';
+
+export interface ProductState {
+  showProductCode: boolean;
+  currentProduct: Product;
+  products: Product[];
+}
+
+export interface State extends fromRoot.State {
+  products: ProductState;
+}
+
+
 export function reducer(state, action) {
   switch (action.type) {
     case 'TOGGLE_PRODUCT_CODE':

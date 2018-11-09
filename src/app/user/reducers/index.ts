@@ -6,12 +6,16 @@ import {
   MetaReducer
 } from '@ngrx/store';
 import { environment } from '../../../environments/environment';
+import { User } from '../user';
 
-export interface State {}
+export interface UserState {
+  maskUserName: boolean;
+  currentUser: User;
+}
 
-export const reducers: ActionReducerMap<State> = {};
+export const reducers: ActionReducerMap<UserState> = {} as ActionReducerMap<UserState>;
 
-export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
+export const metaReducers: MetaReducer<UserState>[] = !environment.production ? [] : [];
 
 
 // Single reducer
