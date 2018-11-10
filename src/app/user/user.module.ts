@@ -6,6 +6,8 @@ import { SharedModule } from '../shared/shared.module';
 import { LoginComponent } from './login.component';
 import { StoreModule } from '@ngrx/store';
 import * as fromUser from './reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { UserEffects } from './reducers/user.effects';
 
 const userRoutes: Routes = [
   { path: 'login', component: LoginComponent }
@@ -15,7 +17,8 @@ const userRoutes: Routes = [
   imports: [
     SharedModule,
     RouterModule.forChild(userRoutes),
-    StoreModule.forFeature('user', fromUser.reducer, { metaReducers: fromUser.metaReducers })
+    StoreModule.forFeature('user', fromUser.reducer, { metaReducers: fromUser.metaReducers }),
+    EffectsModule.forFeature([UserEffects])
   ],
   declarations: [
     LoginComponent

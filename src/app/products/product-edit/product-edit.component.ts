@@ -30,7 +30,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   private genericValidator: GenericValidator;
 
   constructor(
-    private store: Store<fromProduct.ProductState>
+    private store: Store<fromProduct.ProductState>,
     private fb: FormBuilder,
     private productService: ProductService) {
 
