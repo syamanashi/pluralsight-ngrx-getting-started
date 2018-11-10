@@ -14,8 +14,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit, OnDestroy {
-  products$: Observable<Product[]>;
   componentActive = true;
+  errorMessage$: Observable<string>;
+  products$: Observable<Product[]>;
   pageTitle = 'Products';
   errorMessage: string;
 
@@ -36,7 +37,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     //   selectedProduct => this.selectedProduct = selectedProduct
     // );
 
-    // TODO: Unsubscribe
+
     this.store.pipe(
       select(fromProduct.getCurrentProduct),
       takeWhile(() => this.componentActive),
@@ -50,11 +51,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
     //   (err: any) => this.errorMessage = err.error
     // );
 
+    this.errorMessage$ = this.store.pipe(select(fromProduct.getError))
     this.store.dispatch(new productActions.Load());
-    // TODO: Unsubscribe
     this.products$ = this.store.pipe(select(fromProduct.getProducts));
 
-    // TODO: Unsubscribe
+
     this.store.pipe(
       select(fromProduct.getShowProductCode),
       takeWhile(() => this.componentActive),
