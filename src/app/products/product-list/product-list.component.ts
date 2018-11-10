@@ -6,6 +6,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromProduct from '../reducers';
 import * as productActions from '../reducers/product.actions';
 import { takeWhile } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pm-product-list',
@@ -13,6 +14,7 @@ import { takeWhile } from 'rxjs/operators';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit, OnDestroy {
+  products$: Observable<Product[]>;
   componentActive = true;
   pageTitle = 'Products';
   errorMessage: string;
@@ -50,11 +52,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(new productActions.Load());
     // TODO: Unsubscribe
-    this.store.pipe(
-      select(fromProduct.getProducts),
-      takeWhile(() => this.componentActive),
-      )
-      .subscribe((products: Product[]) => this.products = products);
+    this.products$ = this.store.pipe(select(fromProduct.getProducts));
 
     // TODO: Unsubscribe
     this.store.pipe(
