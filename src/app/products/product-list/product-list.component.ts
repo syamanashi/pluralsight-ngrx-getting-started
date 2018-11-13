@@ -51,7 +51,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     //   (err: any) => this.errorMessage = err.error
     // );
 
-    this.errorMessage$ = this.store.pipe(select(fromProduct.getError))
+    this.errorMessage$ = this.store.pipe(select(fromProduct.getError));
     this.store.dispatch(new productActions.Load());
     this.products$ = this.store.pipe(select(fromProduct.getProducts));
 
