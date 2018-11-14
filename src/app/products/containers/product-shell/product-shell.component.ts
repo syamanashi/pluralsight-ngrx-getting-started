@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Product } from '../../product';
@@ -9,7 +9,8 @@ import * as fromProduct from '../../reducers';
 import * as productActions from '../../reducers/product.actions';
 
 @Component({
-    templateUrl: './product-shell.component.html'
+    templateUrl: './product-shell.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush // Unless a new @Input reference is passed or a DOM event is raised in this component or its children, the view WILL NOT get updated.
 })
 export class ProductShellComponent implements OnInit {
   errorMessage$: Observable<string>;
