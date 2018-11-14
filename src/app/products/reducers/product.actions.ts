@@ -14,6 +14,12 @@ export enum ProductActionTypes {
   UpdateProduct = '[Product Edit Page] Update Product',
   UpdateProductSuccess = '[Product API] Update Product Success',
   UpdateProductFail = '[Product API] Update Product Fail',
+  CreateProduct = '[Product Edit Page] Create Product',
+  CreateProductSuccess = '[Product API] Create Product Success',
+  CreateProductFail = '[Product API] Create Product Fail',
+  DeleteProduct = '[Product Edit Page] Delete Product',
+  DeleteProductSuccess = '[Product API] Delete Product Success',
+  DeleteProductFail = '[Product API] Delete Product Fail',
 }
 
 /// Action Creators:
@@ -72,6 +78,42 @@ export class UpdateProductFail implements Action {
   constructor(public payload: string) {} // payload holds a string for an error message.
 }
 
+export class CreateProduct implements Action {
+  readonly type = ProductActionTypes.CreateProduct;
+
+  constructor(public payload: Product) {}
+}
+
+export class CreateProductSuccess implements Action {
+  readonly type = ProductActionTypes.CreateProductSuccess;
+
+  constructor(public payload: Product) {}
+}
+
+export class CreateProductFail implements Action {
+  readonly type = ProductActionTypes.CreateProductFail;
+
+  constructor(public payload: string) {}
+}
+
+export class DeleteProduct implements Action {
+  readonly type = ProductActionTypes.DeleteProduct;
+
+  constructor(public payload: Product) {}
+}
+
+export class DeleteProductSuccess implements Action {
+  readonly type = ProductActionTypes.DeleteProductSuccess;
+
+  constructor(public payload: number) {} // payload is product id
+}
+
+export class DeleteProductFail implements Action {
+  readonly type = ProductActionTypes.DeleteProductFail;
+
+  constructor(public payload: string) {}
+}
+
 
 /// Union Type for all Action Creators:
 
@@ -84,4 +126,10 @@ export type ProductActions = ToggleProductCode
 | LoadFail
 | UpdateProduct
 | UpdateProductSuccess
-| UpdateProductFail;
+| UpdateProductFail
+| CreateProduct
+| CreateProductSuccess
+| CreateProductFail
+| DeleteProduct
+| DeleteProductSuccess
+| DeleteProductFail;
