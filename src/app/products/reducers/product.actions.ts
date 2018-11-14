@@ -99,7 +99,7 @@ export class CreateProductFail implements Action {
 export class DeleteProduct implements Action {
   readonly type = ProductActionTypes.DeleteProduct;
 
-  constructor(public payload: Product) {}
+  constructor(public payload: number) {} // payload is product id
 }
 
 export class DeleteProductSuccess implements Action {

@@ -25,7 +25,7 @@ export class ProductEffects {
   );
 
   @Effect()
-  updateProduct: Observable<Action> = this.actions$.pipe(
+  updateProduct$: Observable<Action> = this.actions$.pipe(
     ofType(productActions.ProductActionTypes.UpdateProduct),
     map((action: productActions.UpdateProduct) => action.payload), // pulls off the payload from the action, which is the Product data that will update the server data.
     mergeMap((product: Product) => // mergeMap merges and flattens the two observables (this.actions$ + this.productService.updateProduct(product))
@@ -37,7 +37,7 @@ export class ProductEffects {
   );
 
   @Effect()
-  createProduct: Observable<Action> = this.actions$.pipe(
+  createProduct$: Observable<Action> = this.actions$.pipe(
     ofType(productActions.ProductActionTypes.CreateProduct),
     map((action: productActions.CreateProduct) => action.payload),
     mergeMap((product: Product) =>
@@ -49,12 +49,12 @@ export class ProductEffects {
   );
 
   @Effect()
-  deleteProduct: Observable<Action> = this.actions$.pipe(
+  deleteProduct$: Observable<Action> = this.actions$.pipe(
     ofType(productActions.ProductActionTypes.DeleteProduct),
     map((action: productActions.DeleteProduct) => action.payload),
-    mergeMap((product: Product) =>
-      this.productService.deleteProduct(product.id).pipe(
-        map(() => new productActions.DeleteProductSuccess(product.id)),
+    mergeMap((productId: number) =>
+      this.productService.deleteProduct(productId).pipe(
+        map(() => new productActions.DeleteProductSuccess(productId)),
         catchError(err => of(new productActions.DeleteProductFail(err)))
       )
     )

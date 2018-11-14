@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { takeWhile } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+
 import { Product } from '../product';
-import { ProductService } from '../product.service';
 import { GenericValidator } from '../../shared/generic-validator';
 import { NumberValidators } from '../../shared/number.validator';
-
 
 /* NgRx */
 import { Store, select } from '@ngrx/store';
@@ -18,8 +19,9 @@ import * as productActions from '../reducers/product.actions';
   styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit, OnDestroy {
+  componentActive = true;
+  errorMessage$: Observable<string>;
   pageTitle = 'Product Edit';
-  errorMessage = '';
   productForm: FormGroup;
 
   product: Product | null;
@@ -32,7 +34,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromProduct.ProductState>,
     private fb: FormBuilder,
-    private productService: ProductService) {
+  ) {
 
     // Defines all of the validation messages for the form.
     // These could instead be retrieved from a file or database.
@@ -71,10 +73,16 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     //   selectedProduct => this.displayProduct(selectedProduct)
     // );
 
-    // TODO: Unsubscribe
-    this.store.pipe(select(fromProduct.getCurrentProduct)).subscribe(
+    // Watch for changes to the currently selected product
+    this.store.pipe(
+      select(fromProduct.getCurrentProduct),
+      takeWhile(() => this.componentActive)
+    ).subscribe(
       currentProduct => this.displayProduct(currentProduct)
     );
+
+    // Watch for changes to the error message
+    this.errorMessage$ = this.store.pipe(select(fromProduct.getError));
 
     // Watch for value changes
     this.productForm.valueChanges.subscribe(
@@ -82,7 +90,9 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void { }
+  ngOnDestroy(): void {
+    this.componentActive = false;
+  }
 
   // Also validate on blur
   // Helpful if the user tabs through required fields
@@ -133,7 +143,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
         );
         */
 
-       this.store.dispatch(new productActions.DeleteProduct(this.product));
+       this.store.dispatch(new productActions.DeleteProduct(this.product.id));
       }
     } else {
       // No need to delete, it was never saved
@@ -175,7 +185,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
         }
       }
     } else {
-      this.errorMessage = 'Please correct the validation errors.';
+      this.errorMessage$ = of('Please correct the validation errors.');
     }
   }
 

@@ -125,10 +125,12 @@ export function reducer(state = initialState, action: ProductActions): ProductSt
         error: action.payload
       };
 
+    // After a create, the currentProduct is the new product.
     case ProductActionTypes.CreateProductSuccess:
       return {
         ...state,
         products: [...state.products, action.payload],
+        currentProductId: action.payload.id,
         error: ''
       };
 
@@ -138,10 +140,12 @@ export function reducer(state = initialState, action: ProductActions): ProductSt
         error: action.payload
       };
 
+    // After a delete, the currentProduct is null.
     case ProductActionTypes.DeleteProductSuccess:
       return {
         ...state,
-        products: state.products.filter(item => item.id !== action.payload),
+        products: state.products.filter(product => product.id !== action.payload),
+        currentProductId: null,
         error: ''
       };
 
