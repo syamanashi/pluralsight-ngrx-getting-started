@@ -5,8 +5,8 @@ import { Product } from '../../product';
 
 /* NgRx */
 import { Store, select } from '@ngrx/store';
-import * as fromProduct from '../../reducers';
-import * as productActions from '../../reducers/product.actions';
+import * as fromProduct from '../../state';
+import * as productActions from '../../state/product.actions';
 
 @Component({
     templateUrl: './product-shell.component.html',
